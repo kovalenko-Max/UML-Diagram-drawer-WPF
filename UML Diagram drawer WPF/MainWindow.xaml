@@ -5,16 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UML_Diagram_drawer_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="700" Width="900">
     <Grid Background="#FF1E3231">
         <Grid.RowDefinitions>
-            <RowDefinition>
-            </RowDefinition>
+            <RowDefinition Height="60" />
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Canvas Grid.Row="1">
-            
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="400" />
+            </Grid.ColumnDefinitions>
+            <Button Name="button1" Grid.Column="0" Content="Button 1" Margin="3,3,3,3" Click="button1_Click" />
+            <Button Name="button2" Grid.Column="1" Content="Button 2" Margin="3,3,3,3"/>
+            <Button Name="button3" Grid.Column="2" Content="Button 3" Margin="3,3,3,3"/>
+            <Grid/>
+        </Grid>
+
+        <Canvas x:Name="canvas" Grid.Row="1" Background="#FF111111" Visibility="Visible">
+            <ItemsControl ItemsSource="{Binding Items}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBox Text="Binding Text" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Canvas>
-        
+
     </Grid>
 
 </Window>

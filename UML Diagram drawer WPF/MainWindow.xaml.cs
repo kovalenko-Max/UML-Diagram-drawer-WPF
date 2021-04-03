@@ -24,5 +24,10 @@ namespace UML_Diagram_drawer_WPF
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }
