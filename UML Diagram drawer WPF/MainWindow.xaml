@@ -6,7 +6,15 @@
         xmlns:local="clr-namespace:UML_Diagram_drawer_WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+    <Grid Background="#FF1E3231">
+        <Grid.RowDefinitions>
+            <RowDefinition>
+            </RowDefinition>
+        </Grid.RowDefinitions>
+        <Canvas Grid.Row="1">
+            
+        </Canvas>
+        
     </Grid>
+
 </Window>
