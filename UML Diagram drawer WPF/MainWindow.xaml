@@ -18,20 +18,30 @@
                 <ColumnDefinition Width="30*"/>
                 <ColumnDefinition Width="400" />
             </Grid.ColumnDefinitions>
-            <Button Name="button1" Grid.Column="0" Content="Button 1" Margin="3,3,3,3" Click="button1_Click" />
+            <Button x:Name="buttonClassBoxCreate" Grid.Column="0" Content="Create Class Box" Margin="3,3,3,3" Click="button1_Click" />
             <Button Name="button2" Grid.Column="1" Content="Button 2" Margin="3,3,3,3"/>
             <Button Name="button3" Grid.Column="2" Content="Button 3" Margin="3,3,3,3"/>
             <Grid/>
         </Grid>
 
         <Canvas x:Name="canvas" Grid.Row="1" Background="#FF111111" Visibility="Visible">
-            <ItemsControl ItemsSource="{Binding Items}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <TextBox Text="Binding Text" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+
+            <GroupBox x:Name="groupClassBox"  Height="170" Width="386" Canvas.Left="465" Canvas.Top="119" Background="#FF3C3C3C" BorderBrush="#FFFDFDFD" Foreground="White" MouseLeftButtonDown="groupClassBox_MouseLeftButtonDown" MouseMove="groupClassBox_MouseMove">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="C# Class" Foreground="White" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBox Grid.Row="1" x:Name="className" Text="className" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" Foreground="White" />
+                    <TextBox Grid.Row="2" x:Name="Textatributes" Text="Atributes" Background="{x:Null}" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Width="374" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}"/>
+                    <TextBox Grid.Row="3" x:Name="TextBoxOpetators" Text="Opetators" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}"/>
+                </Grid>
+            </GroupBox>
+            
         </Canvas>
 
     </Grid>
