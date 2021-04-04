@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UML_Diagram_drawer_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="900">
+        Title="MainWindow" Height="800" Width="1200">
     <Grid Background="#FF1E3231">
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
@@ -18,15 +18,15 @@
                 <ColumnDefinition Width="30*"/>
                 <ColumnDefinition Width="400" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="buttonClassBoxCreate" Grid.Column="0" Content="Create Class Box" Margin="3,3,3,3" Click="button1_Click" />
-            <Button Name="button2" Grid.Column="1" Content="Button 2" Margin="3,3,3,3"/>
+            <Button x:Name="buttonClassBoxCreate" Grid.Column="0" Content="Create Class Box" Margin="3,3,3,3" Click="button1_Click" Background="#FFD4F2F3" />
+            <Button x:Name="buttonArrowCreate" Grid.Column="1" Content="Create new Arrow" Margin="3,3,3,3" Click="buttonArrowCreate_Click" Background="#FFD4F2F3"/>
             <Button Name="button3" Grid.Column="2" Content="Button 3" Margin="3,3,3,3"/>
             <Grid/>
         </Grid>
 
         <Canvas x:Name="canvas" Grid.Row="1" Background="#FF111111" Visibility="Visible">
 
-            <GroupBox x:Name="groupClassBox"  Height="170" Width="386" Canvas.Left="465" Canvas.Top="119" Background="#FF3C3C3C" BorderBrush="#FFFDFDFD" Foreground="White" MouseLeftButtonDown="groupClassBox_MouseLeftButtonDown" MouseMove="groupClassBox_MouseMove">
+            <!--<GroupBox x:Name="groupClassBox"  Height="170" Width="386" Canvas.Left="465" Canvas.Top="119" Background="#FF3C3C3C" BorderBrush="#FFFDFDFD" Foreground="White" >
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -40,7 +40,7 @@
                                HorizontalAlignment="Center" VerticalAlignment="Center" Width="374" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}"/>
                     <TextBox Grid.Row="3" x:Name="TextBoxOpetators" Text="Opetators" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}"/>
                 </Grid>
-            </GroupBox>
+            </GroupBox>-->
             
         </Canvas>
 

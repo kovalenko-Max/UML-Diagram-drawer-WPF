@@ -11,7 +11,6 @@ namespace UML_Diagram_drawer_WPF
 {
     class ClassBox : GroupBox
     {
-        
         public ClassBox()
         {
             Height = 170;
@@ -35,10 +34,24 @@ namespace UML_Diagram_drawer_WPF
             heading.VerticalAlignment = VerticalAlignment.Top;
             heading.Text = "C# Class";
             Grid.SetRow(heading, 0);
-
             gridClassBox.Children.Add(heading);
-            this.Content = gridClassBox;
 
+
+            TextBox classNameField = new TextBox();
+            classNameField.FontSize = 18;
+            classNameField.Background = null;
+            classNameField.BorderBrush = null;
+            classNameField.Foreground = Brushes.White;
+            classNameField.HorizontalAlignment = HorizontalAlignment.Center;
+            classNameField.VerticalAlignment = VerticalAlignment.Top;
+            classNameField.Text = "Name of Class";
+            Grid.SetRow(classNameField, 1);
+            gridClassBox.Children.Add(classNameField);
+
+            Content = gridClassBox;
+
+            Canvas.SetLeft(this, 50);
+            Canvas.SetTop(this, 50);
         }
         
     }
