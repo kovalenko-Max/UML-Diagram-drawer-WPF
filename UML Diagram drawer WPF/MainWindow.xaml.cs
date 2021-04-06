@@ -40,6 +40,7 @@ namespace UML_Diagram_drawer_WPF
         double mouseBeginY;
 
         ArrowLine arrow;
+        ClassBox classBox;
 
 
         public MainWindow()
@@ -50,13 +51,13 @@ namespace UML_Diagram_drawer_WPF
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             ClassBox cl = new ClassBox();
-            cl.MouseLeftButtonDown += new MouseButtonEventHandler(groupClassBox_MouseLeftButtonDown);
-            cl.MouseLeftButtonUp += new MouseButtonEventHandler(groupClassBox_MouseLeftButtonUp);
+            cl.MouseLeftButtonDown += new MouseButtonEventHandler(MouseLeftButtonDown_groupClassBox);
+            cl.MouseLeftButtonUp += new MouseButtonEventHandler(MouseLeftButtonUp_);
             //cl.MouseMove += new MouseEventHandler(groupClassBox_MouseMove);
             canvas.Children.Add(cl);
         }
 
-        private void groupClassBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void MouseLeftButtonDown_groupClassBox(object sender, MouseButtonEventArgs e)
         {
             if ((sender is ClassBox))
             {
@@ -78,21 +79,21 @@ namespace UML_Diagram_drawer_WPF
                     beginLeft -= point.X;
                     beginTop -= point.Y;
 
-                    moveObject.MouseMove += groupClassBox_MouseMove;
+                    moveObject.MouseMove += MouseMove_groupClassBox;
                 }
             }
         }
 
-        private void groupClassBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void MouseLeftButtonUp_(object sender, MouseButtonEventArgs e)
         {
             if (sender is ClassBox)
             {
                 ClassBox moveObject = (ClassBox)sender;
-                moveObject.MouseMove -= groupClassBox_MouseMove;
+                moveObject.MouseMove -= MouseMove_groupClassBox;
             }
         }
 
-        private void groupClassBox_MouseMove(object sender, MouseEventArgs e)
+        private void MouseMove_groupClassBox(object sender, MouseEventArgs e)
         {
             if (sender is ClassBox)
             {
@@ -136,16 +137,19 @@ namespace UML_Diagram_drawer_WPF
             {
                 if (obj is ClassBox)
                 {
-                    ClassBox cb = (ClassBox)obj;
-                    cb.MouseLeftButtonDown -= groupClassBox_MouseLeftButtonDown;
-                    cb.MouseLeftButtonDown += CreateArrow_MouseLeftButtonDown;
+                    ClassBox classBox = (ClassBox)obj;
+                    classBox.MouseLeftButtonDown -= MouseLeftButtonDown_groupClassBox;
+                    classBox.MouseLeftButtonDown += MouseLeftButtonDown_CreateArrow;
+                    classBox.MouseLeftButtonUp += MouseLeftButtonUp_CreateArrow;
                 }
             }
+
+            canvas.MouseLeftButtonUp += MouseLeftButtonUp_CreateArrow;
         }
 
-        private void CreateArrow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void MouseLeftButtonDown_CreateArrow(object sender, MouseButtonEventArgs e)
         {
-            if(sender is ClassBox)
+            if (sender is ClassBox)
             {
                 ClassBox classBox = (ClassBox)sender;
                 if (arrow.X1 == 0 && arrow.X2 == 0)
@@ -155,26 +159,56 @@ namespace UML_Diagram_drawer_WPF
 
                     arrow.X1 = pt.X;
                     arrow.Y1 = pt.Y;
-                }
-                else
-                {
-                    Point classBoxPoint = classBox.TransformToAncestor(canvas).Transform(new Point(0, 0));
-                    Point pt = new Point(classBoxPoint.X + classBox.ActualWidth / 2, classBoxPoint.Y + classBox.ActualHeight / 2);
                     arrow.X2 = pt.X;
                     arrow.Y2 = pt.Y;
-
-                    foreach (object obj in canvas.Children)
-                    {
-                        if (obj is ClassBox)
-                        {
-                            ClassBox cb = (ClassBox)obj;
-                            cb.MouseLeftButtonDown -= CreateArrow_MouseLeftButtonDown;
-                            cb.MouseLeftButtonDown += groupClassBox_MouseLeftButtonDown;
-                        }
-                    }
-
+                    canvas.MouseMove += MouseMove_ArrowDrawing;
                     canvas.Children.Add(arrow);
                 }
+            }
+        }
+
+        private void MouseMove_ArrowDrawing(object sender, MouseEventArgs e)
+        {
+            arrow.X2 = e.GetPosition(canvas).X;
+            arrow.Y2 = e.GetPosition(canvas).Y;
+        }
+
+        public void MouseLeftButtonUp_CreateArrow(object sender, MouseButtonEventArgs e)
+        {
+            canvas.MouseMove -= MouseMove_ArrowDrawing;
+
+            if (classBox is ClassBox)
+            {
+                Point classBoxPoint = classBox.TransformToAncestor(canvas).Transform(new Point(0, 0));
+                Point pt = new Point(classBoxPoint.X + classBox.ActualWidth / 2, classBoxPoint.Y + classBox.ActualHeight / 2);
+                arrow.X2 = pt.X;
+                arrow.Y2 = pt.Y;
+            }
+            else
+            {
+                canvas.Children.Remove(arrow);
+                arrow = null;
+            }
+
+            foreach (object obj in canvas.Children)
+            {
+                if (obj is ClassBox)
+                {
+                    ClassBox cb = (ClassBox)obj;
+                    cb.MouseLeftButtonDown -= MouseLeftButtonDown_CreateArrow;
+                    cb.MouseLeftButtonDown += MouseLeftButtonDown_groupClassBox;
+                    cb.MouseLeftButtonUp -= MouseLeftButtonUp_CreateArrow;
+                }
+            }
+
+            canvas.MouseLeftButtonUp -= MouseLeftButtonUp_CreateArrow;
+        }
+
+        private void ClassBox_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if(sender is ClassBox)
+            {
+                classBox = (ClassBox)sender;
             }
         }
     }
