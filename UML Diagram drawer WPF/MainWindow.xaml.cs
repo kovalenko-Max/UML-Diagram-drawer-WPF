@@ -42,7 +42,6 @@ namespace UML_Diagram_drawer_WPF
         ArrowLine arrow;
         ClassBox classBox;
 
-
         public MainWindow()
         {
             InitializeComponent();
@@ -51,9 +50,9 @@ namespace UML_Diagram_drawer_WPF
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             ClassBox cl = new ClassBox();
-            cl.MouseLeftButtonDown += new MouseButtonEventHandler(MouseLeftButtonDown_groupClassBox);
-            cl.MouseLeftButtonUp += new MouseButtonEventHandler(MouseLeftButtonUp_);
-            //cl.MouseMove += new MouseEventHandler(groupClassBox_MouseMove);
+            cl.MouseLeftButtonDown += MouseLeftButtonDown_groupClassBox;
+            cl.MouseLeftButtonUp += MouseLeftButtonUp_GroupBoxMove;
+            cl.MouseEnter += ClassBox_MouseEnter;
             canvas.Children.Add(cl);
         }
 
@@ -83,16 +82,6 @@ namespace UML_Diagram_drawer_WPF
                 }
             }
         }
-
-        private void MouseLeftButtonUp_(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is ClassBox)
-            {
-                ClassBox moveObject = (ClassBox)sender;
-                moveObject.MouseMove -= MouseMove_groupClassBox;
-            }
-        }
-
         private void MouseMove_groupClassBox(object sender, MouseEventArgs e)
         {
             if (sender is ClassBox)
@@ -102,24 +91,55 @@ namespace UML_Diagram_drawer_WPF
                 Point point = e.GetPosition(canvas);
                 double x = point.X;
                 double y = point.Y;
+
                 if (x < mouseMinX)
+                {
                     x = mouseMinX;
+                }
                 else if (x > mouseMaxX)
-                    x = mouseMaxX;
+                { 
+                    x = mouseMaxX; 
+                }
                 if (y < mouseMinY)
+                {
                     y = mouseMinY;
+                }
                 else if (y > mouseMaxY)
+                {
                     y = mouseMaxY;
+                }
+
+                Point classBoxPoint = moveObject.TransformToAncestor(canvas).Transform(new Point(0, 0));
+                Point pt = new Point(classBoxPoint.X + moveObject.ActualWidth / 2, classBoxPoint.Y + moveObject.ActualHeight / 2);
+
+                moveObject.linkPoint = pt;
+                foreach(ArrowLine arrow in moveObject.arrowLinesTo)
+                {
+                    arrow.X2 = moveObject.linkPoint.X;
+                    arrow.Y2 = moveObject.linkPoint.Y;
+                }
+
+                foreach (ArrowLine arrow in moveObject.arrowLinesFrom)
+                {
+                    arrow.X1 = moveObject.linkPoint.X;
+                    arrow.Y1 = moveObject.linkPoint.Y;
+                }
 
                 double top = beginTop + y;
                 double left = beginLeft + x;
 
                 Canvas.SetLeft(moveObject, left);
                 Canvas.SetTop(moveObject, top);
-
             }
+        }
 
-
+        private void MouseLeftButtonUp_GroupBoxMove(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ClassBox)
+            {
+                ClassBox moveObject = (ClassBox)sender;
+                moveObject.MouseMove -= MouseMove_groupClassBox;
+            }
         }
 
         private void buttonArrowCreate_Click(object sender, RoutedEventArgs e)
@@ -163,6 +183,7 @@ namespace UML_Diagram_drawer_WPF
                     arrow.Y2 = pt.Y;
                     canvas.MouseMove += MouseMove_ArrowDrawing;
                     canvas.Children.Add(arrow);
+                    classBox.arrowLinesFrom.Add(arrow);
                 }
             }
         }
@@ -181,8 +202,10 @@ namespace UML_Diagram_drawer_WPF
             {
                 Point classBoxPoint = classBox.TransformToAncestor(canvas).Transform(new Point(0, 0));
                 Point pt = new Point(classBoxPoint.X + classBox.ActualWidth / 2, classBoxPoint.Y + classBox.ActualHeight / 2);
+                classBox.linkPoint = pt;
                 arrow.X2 = pt.X;
                 arrow.Y2 = pt.Y;
+                classBox.arrowLinesTo.Add(arrow);
             }
             else
             {
@@ -206,7 +229,7 @@ namespace UML_Diagram_drawer_WPF
 
         private void ClassBox_MouseEnter(object sender, MouseEventArgs e)
         {
-            if(sender is ClassBox)
+            if (sender is ClassBox)
             {
                 classBox = (ClassBox)sender;
             }

@@ -11,6 +11,10 @@ namespace UML_Diagram_drawer_WPF
 {
     class ClassBox : GroupBox
     {
+        public Point linkPoint { get; set; }
+        public List<ArrowLine> arrowLinesFrom = new List<ArrowLine>();
+        public List<ArrowLine> arrowLinesTo = new List<ArrowLine>();
+
         public ClassBox()
         {
             Height = 170;

@@ -25,8 +25,8 @@
         </Grid>
 
         <Canvas x:Name="canvas" Grid.Row="1" Background="#FF111111" Visibility="Visible">
-            <local:ClassBox MouseEnter="ClassBox_MouseEnter"/>
-            <local:ClassBox MouseEnter="ClassBox_MouseEnter" Canvas.Left="713" Canvas.Top="57"/>
+            <!--<local:ClassBox MouseEnter="ClassBox_MouseEnter"/>
+            <local:ClassBox MouseEnter="ClassBox_MouseEnter" Canvas.Left="713" Canvas.Top="57"/>-->
 
             <!--<GroupBox x:Name="groupClassBox"  Height="170" Width="386" Canvas.Left="465" Canvas.Top="119" Background="#FF3C3C3C" BorderBrush="#FFFDFDFD" Foreground="White" >
                 <Grid>
